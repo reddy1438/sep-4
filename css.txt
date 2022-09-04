@@ -1,0 +1,127 @@
+Importing external stylesheets
+As the name suggests, React can import CSS files. The process is similar to how we link up CSS file in the HTML <head>:
+
+Create a new CSS file in your project directory.
+Write CSS.
+Import it into the React file.
+Like this:
+
+import "./style.css";
+That usually goes at the top of the file where other imports happen:
+
+import { React } from "react";
+import "./Components/css/App.css";
+function App() {
+  return (
+    <div className="main">
+    </div>
+  );
+}
+export default App; 
+In this example, a CSS file is imported into an App.js from the /Components/css folder.
+
+Write inline styles
+You may be used to hearing that inline styling isn’t all that great for maintainability and whatnot, but there are definitely situations (here’s one!) where it makes sense. And maintainability is less of an issue in React, as the CSS often already sits inside the same file anyway.
+
+This is a super simple example of inline styling in React:
+
+<div className="main" style={{color:"red"}}>
+A better approach, though, is to use objects:
+
+First, create an object that contains styles for different elements.
+Then add it to an element using the style attribute and then select the property to style.
+Let’s see that in context:
+
+import { React } from "react";
+function App() {
+  const styles = {
+    main: {
+      backgroundColor: "#f1f1f1",
+      width: "100%",
+    },
+    inputText: {
+      padding: "10px",
+      color: "red",
+    },
+  };
+  return (
+    <div className="main" style={styles.main}>
+      <input type="text" style={styles.inputText}></input>
+    </div>
+  );
+}
+export default App; 
+ 
+ 
+ 
+This example contains a styles object containing two more objects, one for the .main class and the other for a text input, which contain style rules similar to what we’d expect to see in an external stylesheet. Those objects are then applied to the style attribute of elements that are in the returned markup.
+
+Note that curly brackets are used when referencing styles rather than the quotation marks we’d normally use in plain HTML.
+
+Use CSS Modules
+CSS Modules… what the heck happened to those, right? They have the benefit of locally scoped variables and can be used right alongside React. But what are they, again, exactly?
+
+Quoting the repo’s documentation:
+
+CSS Modules works by compiling individual CSS files into both CSS and data. The CSS output is normal, global CSS, which can be injected directly into the browser or concatenated together and written to a file for production use. The data is used to map the human-readable names you’ve used in the files to the globally-safe output CSS.
+
+In simpler terms, CSS Modules allows us to use the same class name in multiple files without clashes since each class name is given a unique programmatic name. This is especially useful in larger applications. Every class name is scoped locally to the specific component in which it is being imported.
+
+A CSS Module stylesheet is similar to a regular stylesheet, only with a different extension (e.g. styles.module.css). Here’s how they’re set up:
+
+Create a file with .module.css as the extension.
+Import that module into the React app (like we saw earlier)
+Add a className to an element or component and reference the particular style from the imported styles.
+Super simple example:
+
+/* styles.module.css */
+.font {
+  color: #f00;
+  font-size: 20px;
+}
+
+import { React } from "react";
+import styles from "./styles.module.css";
+function App() {
+  return (
+    <h1 className={styles.heading}>Hello World</h1>
+  );
+}
+export default App;
+Use styled-components
+Have you used styled-components? It’s quite popular and allows you to build custom components using actual CSS in your JavaScript. A styled-component is basically a React component with — get ready for it — styles. Some of the features include unique class names, dynamic styling and better management of the CSS as each component has its own separate styles.
+
+Install the styled-components npm package in the command line:
+
+npm install styled-components
+Next up, import it into the React app:
+
+import styled from 'styled-components'
+Create a component and assign a styled property to it. Note the use of template literals denoted by backticks in the Wrapper object:
+
+import { React } from "react";
+import styled from "styled-components";
+function App() {
+  const Wrapper = styled.div`
+    width: 100%;
+    height: 100px;
+    background-color: red;
+    display: block;
+  `;
+  return <Wrapper />;
+}
+export default App;
+The above Wrapper component will be rendered as a div that contains those styles.
+
+Conditional styling
+One of the advantages of styled-components is that the components themselves are functional, as in you can use props within the CSS. This opens the door up to conditional statements and changing styles based on a state or prop.
+
+Here’s a demo showing that off:
+
+
+Here, we are manipulating the div’s display property on the display state. This state is controlled by a button that toggles the div’s state when clicked. This, in turn, toggles between the styles of two different states.
+
+In inline if statements, we use a ? instead of the usual if/else syntax. The else part is after the semicolon. And remember to always call or use the state after it has been initialized. In that last demo, for example, the state should be above the Wrapper component’s styles.
+
+Happy React styling!
+That’s a wrap, folks! We looked at a handful of different ways to write styles in a React application. And it’s not like one is any better than the rest; the approach you use depends on the situation, of course. Hopefully now you’ve got a good understanding of them and know that you have a bunch of tools in your React styling arsenal.
